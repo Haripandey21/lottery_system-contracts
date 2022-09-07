@@ -11,3 +11,6 @@ GAS_REPORT=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.js
 ```
+// remaining work : 
+
+manager payable problem 
