@@ -12,8 +12,8 @@ function openLottery (uint _openTime, uint _closeTime,uint _lotteryPrice) onlyMa
     closeTime=_closeTime;
     lotteryPrice=_lotteryPrice;
     isLotteryOpen=true;
-}
 
+}
 
 // generate random number ......
 function randomNumbergenerate() public view returns(uint)
@@ -22,54 +22,42 @@ function randomNumbergenerate() public view returns(uint)
 }
 
 // Contract collecting the transfered amount......
-receive() external payable
-{
-    addressBalances[msg.sender]+=msg.value; 
-    participants.push(payable(msg.sender));    
-} 
-
-function participate() payable public returns(uint) { 
-        payable (address(this)).transfer(lotteryPrice);
-        return (lotteryPrice);
+receive() external payable {}
 
 
+function applyLottery(uint appliedTime) payable public { 
+   require(appliedTime>openTime,"it's not started yet..");
+   require(appliedTime<closeTime,"lottery ended");
+ //  require(msg.sender!=manager,"manager cannot apply...");
+    require(msg.value==lotteryPrice);   
+      participants.push(payable(msg.sender));   
+      //  payable (address(this)).transfer(msg.value);
+ 
 }
 
-
 // fecthing balance of contract..........
-function balanceofContract() onlyManager public view returns(uint) {
+function balanceofContract()  public view returns(uint) {
     return address(this).balance; 
 
 }
 
-function getWinner() public onlyManager view  {
+
+// announcing winner only  by owner ......
+function getWinner() public onlyManager {
 
 uint n=randomNumbergenerate();
-address payable winner;
+address winner;
 uint randomindex = n % participants.length;
 winner=participants[randomindex];
 
+uint256 c= balanceofContract();
+//uint256 amt=10^18 * c; 
+uint256 winnerAmount=(67*c)/100;
+ uint managerAmount=(13*c)/100;
+payable(winner).transfer(winnerAmount);
 
-
-uint c= balanceofContract();
-uint amt=10^18 * c;
-uint winnerAmount=0.67 * amt;
-// uint managerAmount=0.13 * balanceofContract();
-
-// winner.transfer(winnerAmount);
-// manager.transfer(managerAmount);
+payable(manager).transfer(managerAmount);
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 }
