@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const hre = require("hardhat");
 
 let openTime = new Date(2022, 08, 07, 1, 03).getTime();
-let closeTime = new Date(2022, 08, 07, 1, 30).getTime(); 
+let closeTime = new Date(2022, 08, 07, 5, 30).getTime(); 
 
 
 describe("Deployment testing", function () {
@@ -13,7 +13,7 @@ describe("Deployment testing", function () {
     const instancelottery = await hre.ethers.getContractFactory("lotteryMethods");
     const deployedlottery = await instancelottery.deploy();
    
-    await deployedlottery.connect(add1).openLottery(openTime,closeTime,1200);
+    await deployedlottery.connect(add1).openLottery(openTime,closeTime,9999999999999999);
     console.log("deployed address : ",deployedlottery.address);
 
 

@@ -6,10 +6,11 @@ contract lotteryData {
     uint256 openTime;
     uint256 closeTime;
     uint256 lotteryPrice;
+    uint256 currentTime;
     bool isLotteryOpen;
 
     address public manager;
-    address payable[] public participants;
+    address[] public participants;
     mapping(address => uint256) public addressBalances;
 
     /*-----------------constructor---------------------------------------------------- */
@@ -22,10 +23,4 @@ contract lotteryData {
         require(msg.sender == manager);
         _;
     }
-
-    // modifier onlyParticipants(){
-    //     require();
-    //     _;
-
-    // }
 }

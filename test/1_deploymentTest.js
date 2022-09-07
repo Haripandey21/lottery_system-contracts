@@ -10,7 +10,6 @@ describe("Deployment testing", function () {
     const deployedlottery = await instancelottery.deploy();
     console.log("deployed address : ",deployedlottery.address);
 
-
     expect(typeof (deployedlottery.address)!=null);
 
 
