@@ -2,18 +2,18 @@ const { expect } = require("chai");
 const hre = require("hardhat");
 
 let openTime = new Date(2022, 08, 07, 1, 03).getTime();
-let closeTime = new Date(2022, 08, 07, 5, 30).getTime(); 
+let closeTime = new Date(2022, 10, 07, 5, 30).getTime(); 
 
 
-describe("Deployment testing", function () {
-  it("deployment should work ", async function () {
+describe("openLottery function testing...", function () {
+  it("lottery should open... ", async function () {
 
-    [add1, add2,add3,add4,add5] = await hre.ethers.getSigners();
+    [addr1, addr2,addr3,addr4,addr5] = await hre.ethers.getSigners();
     contract = await hre.ethers.getContractFactory("lotteryMethods");
     const instancelottery = await hre.ethers.getContractFactory("lotteryMethods");
     const deployedlottery = await instancelottery.deploy();
    
-    await deployedlottery.connect(add1).openLottery(openTime,closeTime,9999999999999999);
+    await deployedlottery.connect(addr1).openLottery(openTime,closeTime,99999999999999);
     console.log("deployed address : ",deployedlottery.address);
 
 

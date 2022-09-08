@@ -14,10 +14,13 @@ contract lotteryMethods is lotteryData {
         closeTime = _closeTime;
         lotteryPrice = _lotteryPrice;
         isLotteryOpen = true;
+        currentPool=0;
+
+        emit lotteryOpened(_openTime,_closeTime,_lotteryPrice);     
     }
 
     // generate random number ......
-    function randomNumbergenerate() public view returns (uint256) {
+    function randomNumbergenerate() private view returns (uint256) {
         return
             uint256(
                 keccak256(
@@ -33,45 +36,52 @@ contract lotteryMethods is lotteryData {
     // Contract collecting the transfered amount......
     receive() external payable {}
 
-    function applyLottery(uint256 appliedTime) public payable {
+    function applyLottery(uint256 appliedTime) public payable accountAlreadyExist(msg.sender) {
         require(appliedTime > openTime, "it's not started yet..");
-        require(appliedTime < closeTime, "lottery ended");
-       //  require(msg.sender!=manager,"manager cannot apply...");
-        require(msg.value == lotteryPrice);
+        require(appliedTime < closeTime, "lottery ended...");
+        require(msg.value == lotteryPrice,"fund is not sufficient...");
+        require(msg.sender!=manager,"manager cannot participate in lottery system....");
+        accountexists[msg.sender]=true;
+        currentPool+=lotteryPrice;
+      
         participants.push(payable(msg.sender));
+        emit lotteryApplied(appliedTime);
         //  payable (address(this)).transfer(msg.value);
     }
 
     // fecthing balance of contract..........
-    function balanceofContract() onlyManager public view returns (uint256) {
+    function balanceofContract() public view onlyManager returns (uint256) {
         return address(this).balance;
     }
 
-    // announcing winner only  by owner ......
-    function getWinner() public onlyManager returns(address){
-        uint256 n = randomNumbergenerate();
-        address winner;
-        uint256 randomindex = n % participants.length;
-        winner = participants[randomindex];
-        uint256 c = balanceofContract();
-        //uint256 amt=10^18 * c;
-        uint256 winnerAmount = (67 * c) / 100;
-        uint256 managerAmount = (13 * c) / 100;
-        payable(winner).transfer(winnerAmount);
-        payable(manager).transfer(managerAmount);
-        return participants[randomindex];
-        
+    function closeLottery(uint256 currentTime) public onlyManager{
+          require(currentTime > closeTime, "lottery is not ended yet ");
+           uint256 n = randomNumbergenerate();
+            uint256 randomindex = n % participants.length; 
+            winner = participants[randomindex]; 
+
+            uint256 winnerAmount = (67 * currentPool) / 100;
+            uint256 managerAmount = (13 * currentPool) / 100;
+               payable(winner).transfer(winnerAmount); 
+               payable(manager).transfer(managerAmount); 
+                
+               withDrawableAmount+=balanceofContract();
+                participants = new address[](0);
+                 winner=address(0);
+                 currentPool=0;
+                 isLotteryOpen = false;
+                   emit  amountTransfered(winnerAmount,managerAmount);
     }
 
-    function closeLottery() public onlyManager()
-    {
+    function withDraw(address _to, uint _withDrawAmount) onlyManager public {
+        require(isLotteryOpen !=true,"Cannot withdraw as lottery is running...");
+        require(_withDrawAmount<=withDrawableAmount,"You Cannot withdraw that much amount");
+        payable(_to).transfer(_withDrawAmount);  
+        withDrawableAmount-=_withDrawAmount; 
+        emit withDrawal(_to,_withDrawAmount);
 
-        require(currentTime>closeTime,"lottery is not ended yet ");
-        
-        participants=new address payable[](0); 
-
-    }
-
-
+    } 
 }
+
+
 
