@@ -9,8 +9,8 @@ let currentTime=new Date(2022, 9, 07, 1, 14).getTime();
 describe("withdraw function testing on the behalf of Owner : ", () => {
     beforeEach(async () => {
         [addr1, addr2,addr3,addr4,addr5] = await hre.ethers.getSigners();
-        contract = await hre.ethers.getContractFactory("lotteryMethods");
-        instancelottery = await hre.ethers.getContractFactory("lotteryMethods");
+        contract = await hre.ethers.getContractFactory("Lottery");
+        instancelottery = await hre.ethers.getContractFactory("Lottery");
         deployedlottery = await instancelottery.deploy();
         });
     it("Manager can withdraw amount less or equal to his withdrawable amount.....", async () => {

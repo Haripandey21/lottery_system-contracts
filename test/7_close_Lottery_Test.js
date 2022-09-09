@@ -9,8 +9,8 @@ let currentTime=new Date(2022, 9, 07, 1, 14).getTime();
 describe("getting winner and amount must be transferd to him.....", () => {
     beforeEach(async () => {
         [addr1, addr2,addr3,addr4,addr5] = await hre.ethers.getSigners();
-        contract = await hre.ethers.getContractFactory("lotteryMethods");
-        instancelottery = await hre.ethers.getContractFactory("lotteryMethods");
+        contract = await hre.ethers.getContractFactory("Lottery");
+        instancelottery = await hre.ethers.getContractFactory("Lottery");
         deployedlottery = await instancelottery.deploy();
         });
     it("getting winner....", async () => {
@@ -21,43 +21,43 @@ describe("getting winner and amount must be transferd to him.....", () => {
         console.log("-----------------------------------------------------------------------");
         // applying from addr2 ...
         console.log("before applying, Account 2 Balance : ",await addr2.getBalance());
-        console.log("current contract's Balance : ", await deployedlottery.balanceofContract());
+        console.log("current contract's Balance : ", await deployedlottery.balanceOfContract());
 
         await deployedlottery.connect(addr2).applyLottery(appliedTime,{ value:99999999999 });
 
         console.log("After Applying, Account 2 Balance",await addr2.getBalance());
-        console.log("New contract's Balance : ", await deployedlottery.balanceofContract());  
+        console.log("New contract's Balance : ", await deployedlottery.balanceOfContract());  
    
         console.log("-----------------------------------------------------------------------");
         // applying from addr3....
         console.log("before applying, Account 3 Balance : ",await addr3.getBalance());
-        console.log("current contract's Balance : ", await deployedlottery.balanceofContract());
+        console.log("current contract's Balance : ", await deployedlottery.balanceOfContract());
 
         await deployedlottery.connect(addr3).applyLottery(appliedTime,{ value:99999999999 });
 
         console.log("After Applying, Account 3 Balance",await addr2.getBalance());
-        console.log("New contract's Balance : ", await deployedlottery.balanceofContract());  
+        console.log("New contract's Balance : ", await deployedlottery.balanceOfContract());  
 
         
         console.log("-----------------------------------------------------------------------");
         // applying from addr4 ...
         console.log("before applying, Account 4 Balance : ",await addr4.getBalance());
-        console.log("current contract's Balance : ", await deployedlottery.balanceofContract());
+        console.log("current contract's Balance : ", await deployedlottery.balanceOfContract());
 
         await deployedlottery.connect(addr4).applyLottery(appliedTime,{ value:99999999999 });
 
         console.log("After Applying, Account 4 Balance",await addr2.getBalance());
-        console.log("New contract's Balance : ", await deployedlottery.balanceofContract());  
+        console.log("New contract's Balance : ", await deployedlottery.balanceOfContract());  
    
         console.log("-----------------------------------------------------------------------");
         // applying from addr5....
         console.log("before applying, Account 5 Balance : ",await addr5.getBalance());
-        console.log("current contract's Balance : ", await deployedlottery.balanceofContract());
+        console.log("current contract's Balance : ", await deployedlottery.balanceOfContract());
 
         await deployedlottery.connect(addr5).applyLottery(appliedTime,{ value:99999999999 });
 
         console.log("After Applying, Account 5 Balance",await addr5.getBalance());
-        console.log("Total contract's Balance : ", await deployedlottery.balanceofContract());  
+        console.log("Total contract's Balance : ", await deployedlottery.balanceOfContract());  
 
         console.log("------------------------------------------------------------------------");
         await deployedlottery.connect(addr1).closeLottery(currentTime);
@@ -74,7 +74,7 @@ describe("getting winner and amount must be transferd to him.....", () => {
         await deployedlottery.connect(addr5);
         console.log("Account 5 Balance : ",await addr5.getBalance());
 
-        console.log("Total contract's Balance : ", await deployedlottery.balanceofContract());  
+        console.log("Total contract's Balance : ", await deployedlottery.balanceOfContract());  
         console.log("current Pool Balance : ",await deployedlottery.currentPool());
 
 
