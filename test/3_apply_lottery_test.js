@@ -18,12 +18,8 @@ describe("applyLottery function checking .....", () => {
     it("should apply for a lottery", async () => {
 
             oldBalance=await deployedlottery.balanceOfContract()        
-         tx=   await deployedlottery.connect(addr2).applyLottery(appliedTime,{ value:999999999999})
+            await deployedlottery.connect(addr2).applyLottery(appliedTime,{ value:999999999999})
             newBalance=await deployedlottery.balanceOfContract();
-
-            receipt= await tx.wait();
-            console.log(receipt.events[0]);
-
         expect(newBalance).to.equal(oldBalance+999999999999);      
     });
 });

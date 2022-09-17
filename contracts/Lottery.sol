@@ -49,17 +49,22 @@ contract Lottery is DataStructure, Modifiers {
 
     function closeLottery(uint256 currentTime) public onlyManager {
         require(currentTime > closeTime, "lottery is not ended yet ");
+        
 
-        uint256 winnerIndex = generateRandomNumber();
+        uint256 r = generateRandomNumber();
+        uint winnerIndex=r % participants.length;
+        address winner=participants[winnerIndex];
+
+
         (uint256 winnerAmount, uint256 managerCommission) = fundSettlement(
-            participants[winnerIndex]
+            winner
         );
 
         withDrawableAmount += balanceOfContract();
         resetLottery();
 
         emit Events.amountTransfered(
-            participants[winnerIndex],
+            winner,
             winnerAmount,
             managerCommission
         );
@@ -95,7 +100,7 @@ contract Lottery is DataStructure, Modifiers {
                         participants.length
                     )
                 )
-            ) % participants.length;
+            ) ;
     }
 
     function fundSettlement(address winner)

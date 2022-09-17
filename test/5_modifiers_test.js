@@ -23,9 +23,12 @@ describe("Modifiers testing which must reverted with some text.....", () => {
         await expect (deployedlottery.connect(addr2).applyLottery(appliedTime,{ value:99999999999})).to.be.revertedWith("This account already participated in lottery...");
     });
 
-   
+    it("calling withdraw function other than Owner.... ", async () => {    
+        await expect(deployedlottery.connect(addr2).withDraw("0xbDA5747bFD65F08deb54cb465eB87D40e51B197E",999000)).to.be.revertedWith("only Manager can call this function...");
 
 
+    });
     
 });
+
  
