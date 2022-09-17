@@ -1,7 +1,7 @@
 {
   "name": "lottery-system",
   "version": "1.0.0",
-  "description": "",
+  "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,12 +13,23 @@
   "license": "ISC",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
-    "hardhat": "^2.11.0",
+    "hardhat": "^2.11.2",
     "husky": "^8.0.1",
     "prettier": "^2.7.1",
     "prettier-plugin-solidity": "^1.0.0-beta.24"
   },
   "dependencies": {
     "dotenv": "^16.0.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haripandey21/lottery_system-contracts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Haripandey21/lottery_system-contracts/issues"
+  },
+  "homepage": "https://github.com/Haripandey21/lottery_system-contracts#readme"
 }

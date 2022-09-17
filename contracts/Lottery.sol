@@ -43,21 +43,26 @@ contract Lottery is DataStructure, Modifiers {
         currentPool += lotteryPrice;
 
         participants.push(payable(msg.sender));
-        emit Events.lotteryApplied(appliedTime,msg.sender);
+        emit Events.lotteryApplied(appliedTime, msg.sender);
         //  payable (address(this)).transfer(msg.value);
     }
 
     function closeLottery(uint256 currentTime) public onlyManager {
         require(currentTime > closeTime, "lottery is not ended yet ");
-    
+
         uint256 winnerIndex = generateRandomNumber();
-        (uint256 winnerAmount, uint256 managerCommission) = fundSettlement(participants[winnerIndex]);
+        (uint256 winnerAmount, uint256 managerCommission) = fundSettlement(
+            participants[winnerIndex]
+        );
 
         withDrawableAmount += balanceOfContract();
         resetLottery();
-     
 
-        emit Events.amountTransfered(participants[winnerIndex], winnerAmount, managerCommission);
+        emit Events.amountTransfered(
+            participants[winnerIndex],
+            winnerAmount,
+            managerCommission
+        );
     }
 
     function withDraw(address _receiver, uint256 _amount) public onlyManager {
@@ -76,7 +81,7 @@ contract Lottery is DataStructure, Modifiers {
         emit Events.withDrawal(_receiver, _amount);
     }
 
-     function balanceOfContract() public view returns (uint256) {
+    function balanceOfContract() public view returns (uint256) {
         return address(this).balance;
     }
 
@@ -90,10 +95,13 @@ contract Lottery is DataStructure, Modifiers {
                         participants.length
                     )
                 )
-            )% participants.length;
+            ) % participants.length;
     }
 
-    function fundSettlement(address winner) private returns (uint256 winnerAmount, uint256 managerCommission) {
+    function fundSettlement(address winner)
+        private
+        returns (uint256 winnerAmount, uint256 managerCommission)
+    {
         winnerAmount = (67 * currentPool) / 100;
         managerCommission = (13 * currentPool) / 100;
 
