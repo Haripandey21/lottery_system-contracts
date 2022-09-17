@@ -199,7 +199,7 @@ describe("deploying by addr1..addr2 is only participant..and checking amount of 
 
 
 ```
-## withdrwa_test
+## withdraw_test
 ```bash
 const { expect } = require("chai");
 const hre = require("hardhat");
