@@ -13,7 +13,7 @@ async function main() {
 
  //deployedContractAddress= process.env.DEPLOYED_CONTRACT_ADDRESS; 
   console.log(
-    "deployed Contract Address:",deployedLotteryContracts.address );
+    "deployed Contract Address in goerli :",deployedLotteryContracts.address );
 }
 main()
  .then(() => process.exit(0))
