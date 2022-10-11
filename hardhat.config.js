@@ -1,3 +1,4 @@
+require("hardhat-gas-reporter");
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config({ path: ".env" });
 
@@ -12,4 +13,12 @@ module.exports = {
       accounts: [PRIVATE_KEY],
     },
   },
+  gasReporter: {
+    enabled : true,
+    currency: 'USD',
+    outputFile :'gasreporter.txt',
+    //nocolors : true,
+  }
 };
+
+
