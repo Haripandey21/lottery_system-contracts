@@ -1,7 +1,5 @@
 const { expect } = require("chai");
 const hre = require("hardhat");
-
-
 let openTime = new Date(2022, 08, 07, 1, 03).getTime();
 let closeTime = new Date(2022, 11, 07, 5, 30).getTime(); 
 let appliedTime=new Date(2022, 09, 07, 1, 14).getTime(); 
@@ -16,7 +14,6 @@ describe("applyLottery function checking .....", () => {
         });
 
     it("should apply for a lottery", async () => {
-
             oldBalance=await deployedlottery.balanceOfContract()        
             await deployedlottery.connect(addr2).applyLottery(appliedTime,{ value:999999999999})
             newBalance=await deployedlottery.balanceOfContract();

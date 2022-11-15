@@ -1,6 +1,5 @@
 const { expect } = require("chai");
 const hre = require("hardhat");
-
 let openTime = new Date(2022, 08, 08, 9, 30).getTime();
 let closeTime = new Date(2022, 09, 10, 6, 30).getTime(); 
 let appliedTime=new Date(2022, 09, 02, 2, 32).getTime(); 
@@ -25,10 +24,7 @@ describe("Modifiers testing which must reverted with some text.....", () => {
 
     it("calling withdraw function other than Owner.... ", async () => {    
         await expect(deployedlottery.connect(addr2).withDraw("0xbDA5747bFD65F08deb54cb465eB87D40e51B197E",999000)).to.be.revertedWith("only Manager can call this function...");
-
-
-    });
-    
+    });   
 });
 
  
