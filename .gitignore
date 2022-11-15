@@ -4,6 +4,8 @@ coverage
 coverage.json
 typechain
 typechain-types
+.gitignore 
+.solhint.json
 
 #Hardhat files
 cache
