@@ -1,4 +1,5 @@
 require("hardhat-gas-reporter");
+require("@nomiclabs/hardhat-etherscan");
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config({ path: ".env" });
 
@@ -18,6 +19,11 @@ module.exports = {
     currency: 'USD',
     outputFile :'gasreporter.txt',
     //nocolors : true,
+  },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    apiKey: "6143C7EZTMVHWZTCZ6NTVQTT6EAK3WWENP"
   }
 };
 

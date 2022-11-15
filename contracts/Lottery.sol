@@ -5,7 +5,7 @@ import "./lib/DataStructure.sol";
 import "./lib/Modifiers.sol";
 import "./lib/Events.sol";
 
-contract Lottery is DataStructure, Modifiers {
+contract Lottery is DataStructure, Modifiers,Events {
     constructor() {
         manager = msg.sender;
     }
@@ -15,13 +15,14 @@ contract Lottery is DataStructure, Modifiers {
         uint256 _closeTime,
         uint256 _lotteryPrice
     ) public onlyManager {
+        require(isLotteryOpen!=true,"lottery is still running");
         openTime = _openTime;
         closeTime = _closeTime;
         lotteryPrice = _lotteryPrice;
         isLotteryOpen = true;
         currentPool = 0;
 
-        emit Events.lotteryOpened(_openTime, _closeTime, _lotteryPrice);
+        emit lotteryOpened(_openTime, _closeTime, _lotteryPrice);
     }
 
     // Contract collecting the transfered amount......
@@ -43,14 +44,13 @@ contract Lottery is DataStructure, Modifiers {
         currentPool += lotteryPrice;
 
         participants.push(payable(msg.sender));
-        emit Events.lotteryApplied(appliedTime, msg.sender);
+        emit lotteryApplied(appliedTime, msg.sender);
         //  payable (address(this)).transfer(msg.value);
     }
 
     function closeLottery(uint256 currentTime) public onlyManager {
         require(currentTime > closeTime, "lottery is not ended yet ");
         
-
         uint256 r = generateRandomNumber();
         uint winnerIndex=r % participants.length;
         address winner=participants[winnerIndex];
@@ -63,7 +63,7 @@ contract Lottery is DataStructure, Modifiers {
         withDrawableAmount += balanceOfContract();
         resetLottery();
 
-        emit Events.amountTransfered(
+        emit amountTransfered(
             winner,
             winnerAmount,
             managerCommission
@@ -83,7 +83,7 @@ contract Lottery is DataStructure, Modifiers {
 
         payable(_receiver).transfer(_amount);
         withDrawableAmount -= _amount;
-        emit Events.withDrawal(_receiver, _amount);
+        emit withDrawal(_receiver, _amount);
     }
 
     function balanceOfContract() public view returns (uint256) {
@@ -118,5 +118,14 @@ contract Lottery is DataStructure, Modifiers {
         participants = new address[](0);
         currentPool = 0;
         isLotteryOpen = false;
+    }
+
+       function getParticipants() public view returns (address[] memory) {
+
+        address[] memory participantData = new address[](participants.length);
+        for (uint256 i = 0; i < participants.length; i++) {
+            participantData[i] = participants[i];
+        }
+        return participantData;
     }
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-library Events {
+ contract Events {
     event lotteryOpened(
         uint256 openTime,
         uint256 closeTime,
